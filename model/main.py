@@ -15,7 +15,7 @@ class ImageCaptioningModel(nn.Module):
 		self.decoder = TransformerDecoder(image_features_dim,vocab_size=self.vocab_size,embed_size=embed_size,num_layers=decoder_num_layers)
 		self.caption_max_length = caption_max_length
 
-		self.init_weights()
+#		self.init_weights()
 	
 	def init_weights(self):
 		for p in self.decoder.parameters():

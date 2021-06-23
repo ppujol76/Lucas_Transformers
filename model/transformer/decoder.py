@@ -9,7 +9,7 @@ from model.transformer.positional_encoding import PositionalEncoding
 
 
 class TransformerDecoder(nn.Module):
-    def __init__(self, image_features_dim, vocab_size, embed_size, num_layers=6):
+    def __init__(self, image_features_dim, vocab_size, embed_size, num_layers=4):
         super(TransformerDecoder, self).__init__()
         self.num_layers = num_layers
         self.vocab_size = vocab_size
@@ -23,18 +23,19 @@ class TransformerDecoder(nn.Module):
             dim_feedforward=2048,
             activation='relu',
             dropout=.5,
-            nhead=8
+            nhead=4
         )
         self.transformer_decoder = nn.TransformerDecoder(
             self.transformer_decoder_layer,
             num_layers=self.num_layers
         )
         self.reduce_features = nn.Linear(in_features=self.image_features_dim, out_features=self.embedding_size)
-        self.linear = nn.Sequential(
-            nn.Linear(in_features=self.embedding_size, out_features=self.vocab_size//2,bias=False),
-            nn.Linear(in_features=self.vocab_size//2, out_features=self.vocab_size//2,bias=False),
-            nn.Linear(in_features=self.vocab_size//2, out_features=self.vocab_size,bias=False)
-        )
+        self.linear = nn.Linear(in_features=self.embedding_size,out_features=self.vocab_size)
+ #       self.linear = nn.Sequential(
+  #          nn.Linear(in_features=self.embedding_size, out_features=self.vocab_size//2,bias=False),
+   #         nn.Linear(in_features=self.vocab_size//2, out_features=self.vocab_size//2,bias=False),
+    #        nn.Linear(in_features=self.vocab_size//2, out_features=self.vocab_size,bias=False)
+     #   )
 
     def generate_square_subsequent_mask(self, sz):
         mask = (torch.triu(torch.ones(sz, sz)) == 1).transpose(0, 1)

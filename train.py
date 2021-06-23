@@ -96,7 +96,7 @@ def train_single_epoch(epoch, model, train_loader, optimizer, criterion, device)
 			bsz=target.shape[0],
 			seq_len=target.shape[1]
 		)
-		loss = criterion(output[:,:,1:], target[:,1:])
+		loss = criterion(output[:,:,:-1], target[:,1:])
 		
 		print('--------------------------------------------------------------------------------------------------')
 		print('--------------------------------------------------------------------------------------------------')
